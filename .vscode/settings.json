@@ -12,5 +12,8 @@
         "isset",
         "nonrepudiation",
         "veryhigh"
-    ]
+    ],
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "modificationsIfAvailable",
+    "editor.formatOnPaste": true
 }
