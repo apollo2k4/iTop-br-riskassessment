@@ -205,19 +205,19 @@
                 </field>
             </fields>
             <event_listeners>
-                <event_listener id="EvtCheckBCMToWrite" _delta="define">
+                <event_listener id="OnFunctionalCICheckToWriteBCM" _delta="define">
                     <event>EVENT_DB_CHECK_TO_WRITE</event>
-                    <callback>EvtCheckBCMToWrite</callback>
+                    <callback>OnFunctionalCICheckToWriteBCM</callback>
                     <rank>1</rank>
                 </event_listener>
             </event_listeners>
             <methods>
-                <method id="EvtCheckBCMToWrite">
+                <method id="OnFunctionalCICheckToWriteBCM">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtCheckBCMToWrite(Combodo\iTop\Service\Events\EventData $oEventData)
+    public function OnFunctionalCICheckToWriteBCM(Combodo\iTop\Service\Events\EventData $oEventData)
     {
         // Retrieve changes and check for presence of relevant fields in a single operation
         $aChanges = $this->ListChanges();
