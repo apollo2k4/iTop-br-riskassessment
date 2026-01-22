@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<itop_design version="3.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/rudnerbjoern/iTop-schema/refs/heads/main/3.2/itop_design.xsd">
+<itop_design version="3.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://rudnerbjoern.github.io/iTop-schema/3.2/itop_design.xsd">
     <!--
     * @copyright   Copyright (C) 2024-2025 Björn Rudner
     * @license     https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -205,37 +205,37 @@
                 </field>
             </fields>
             <event_listeners>
-                <event_listener id="CheckBCM" _delta="define">
+                <event_listener id="OnFunctionalCICheckToWriteBCM" _delta="define">
                     <event>EVENT_DB_CHECK_TO_WRITE</event>
-                    <callback>CheckBCMOnUpdate</callback>
+                    <callback>OnFunctionalCICheckToWriteBCM</callback>
                     <rank>1</rank>
                 </event_listener>
             </event_listeners>
             <methods>
-                <method id="CheckBCMOnUpdate">
+                <method id="OnFunctionalCICheckToWriteBCM">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
-                    <code>
-                        <![CDATA[public function CheckBCMOnUpdate(Combodo\iTop\Service\Events\EventData $oEventData)
-{
-    // Retrieve changes and check for presence of relevant fields in a single operation
-    $aChanges = $this->ListChanges();
-    $bRTOChanged = isset($aChanges['bcm_rto']);
-    $bMTDChanged = isset($aChanges['bcm_mtd']);
+                    <code><![CDATA[
+    public function OnFunctionalCICheckToWriteBCM(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        // Retrieve changes and check for presence of relevant fields in a single operation
+        $aChanges = $this->ListChanges();
+        $bRTOChanged = isset($aChanges['bcm_rto']);
+        $bMTDChanged = isset($aChanges['bcm_mtd']);
 
-    // If RTO or MTD changed, validate their relationship
-    if ($bRTOChanged || $bMTDChanged) {
-        $iRTO = intval($this->Get('bcm_rto'));
-        $iMTD = intval($this->Get('bcm_mtd'));
+        // If RTO or MTD changed, validate their relationship
+        if ($bRTOChanged || $bMTDChanged) {
+            $iRTO = intval($this->Get('bcm_rto'));
+            $iMTD = intval($this->Get('bcm_mtd'));
 
-        // Check if MTD is less than RTO when RTO is greater than zero
-        if ($iRTO > 0 && $iMTD < $iRTO) {
-            $this->AddCheckIssue(Dict::Format('Class:FunctionalCI/Error:MtdMustBeGreaterThanRto'));
+            // Check if MTD is less than RTO when RTO is greater than zero
+            if ($iRTO > 0 && $iMTD < $iRTO) {
+                $this->AddCheckIssue(Dict::Format('Class:FunctionalCI/Error:MtdMustBeGreaterThanRto'));
+            }
         }
     }
-}]]>
-                    </code>
+  ]]></code>
                 </method>
             </methods>
         </class>
